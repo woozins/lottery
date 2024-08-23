@@ -74,16 +74,16 @@ def work(start, end):
 
 if __name__ == '__main__':
   result = Queue()
-  th1 = Process(target=work, args=(0, 4))
-  th2 = Process(target=work, args=(4, 8))
-  th3 = Process(target=work, args=(8, 12))
-  th4 = Process(target=work, args=(12, 16))
-  th5 = Process(target=work, args=(16, 20))
-  th6 = Process(target=work, args=(20, 24))
-  th7 = Process(target=work, args=(24, 28))
-  th8 = Process(target=work, args=(28, 32))
-  th9 = Process(target=work, args=(32, 36))
-  th10 = Process(target=work, args=(36, 40))
+  th1 = Process(target=work, args=(0, 2))
+  th2 = Process(target=work, args=(2, 4))
+  th3 = Process(target=work, args=(4, 6))
+  th4 = Process(target=work, args=(6, 8))
+  th5 = Process(target=work, args=(8, 10))
+  th6 = Process(target=work, args=(10, 12))
+  th7 = Process(target=work, args=(12, 14))
+  th8 = Process(target=work, args=(14, 16))
+  th9 = Process(target=work, args=(16, 18))
+  th10 = Process(target=work, args=(18, 20))
 
 
   th1.start()

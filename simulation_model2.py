@@ -16,15 +16,14 @@ def find_combinations(current_comb, start, result):
         return
     
     for i in range(start, 46):
-        if not current_comb or i - current_comb[-1] >= 7:
+        if not current_comb or i - current_comb[-1] >= 4:
             find_combinations(current_comb + [i], i + 1, result)
 
 result = []
 find_combinations([], 1, result)
 
-freqgroup = result 
-
-P = 1000
+freqgroup = result
+P = 10000
 plusfreq = list(map(tuple,[sorted(random.sample(range(1,46), 6)) for _ in range(P)]))
 
 freqgroup = freqgroup + plusfreq

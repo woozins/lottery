@@ -1229,11 +1229,11 @@ def work(start, end):
 
 if __name__ == '__main__':
   result = Queue()
-  th1 = Process(target=work, args=(0, 4))
-  th2 = Process(target=work, args=(4, 8))
-  th3 = Process(target=work, args=(8, 12))
-  th4 = Process(target=work, args=(12, 16))
-  th5 = Process(target=work, args=(16, 20))
+  th1 = Process(target=work, args=(0, 2))
+  th2 = Process(target=work, args=(2, 4))
+  th3 = Process(target=work, args=(4, 6))
+  th4 = Process(target=work, args=(6, 8))
+  th5 = Process(target=work, args=(8, 10))
 
 
   th1.start()
