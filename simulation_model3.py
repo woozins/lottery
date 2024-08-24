@@ -6,75 +6,61 @@ from math import factorial
 from functools import lru_cache
 from multiprocessing import Process, Queue
 from tqdm import tqdm
+import warnings
+warnings.filterwarnings("ignore")
 
 #Define Classes
-
 numbers = list(range(1,46))
 combinations = list(itertools.combinations(numbers, 6))
 
-group_1 = []
-group_2 = []
+#group_1
+temp_1 = list(itertools.combinations(list(range(1,16)),2))
+temp_2 = list(itertools.combinations(list(range(16,31)),2))
+temp_3 = list(itertools.combinations(list(range(31,46)),2))
+group1 = list(itertools.product(temp_1, temp_2, temp_3))
+group1 = [x[0]+x[1]+x[2] for x in group1]
 
+#group_2
+temp_1 = list(itertools.combinations(list(range(1,16)),1))
+temp_2 = list(itertools.combinations(list(range(16,31)),2))
+temp_3 = list(itertools.combinations(list(range(31,46)),3))
+group_123 = list(itertools.product(temp_1, temp_2, temp_3))
+group_123 = [x[0]+x[1]+x[2] for x in group_123]
 
-def classify(start, end):
-  for i in tqdm(range(start, end)):
-    comb = combinations[i]
-    if np.array_equal(np.histogram(comb, bins = [1,16,31,46]), [2,2,2]):
-      group_1.append(comb)
-    elif np.array_equal(np.histogram(comb, bins = [1,16,31,46]), [1,2,3]):
-      group_2.append(comb)
-    elif np.array_equal(np.histogram(comb, bins = [1,16,31,46]), [1,3,2]):
-      group_2.append(comb)
-    elif np.array_equal(np.histogram(comb, bins = [1,16,31,46]), [2,3,1]):
-      group_2.append(comb)
-    elif np.array_equal(np.histogram(comb, bins = [1,16,31,46]), [2,1,3]):
-      group_2.append(comb) 
-    elif np.array_equal(np.histogram(comb, bins = [1,16,31,46]), [3,1,2]):
-      group_2.append(comb)
-    elif np.array_equal(np.histogram(comb, bins = [1,16,31,46]), [3,2,1]):
-      group_2.append(comb) 
+temp_1 = list(itertools.combinations(list(range(1,16)),1))
+temp_2 = list(itertools.combinations(list(range(16,31)),3))
+temp_3 = list(itertools.combinations(list(range(31,46)),2))
+group_132 = list(itertools.product(temp_1, temp_2, temp_3))
+group_132 = [x[0]+x[1]+x[2] for x in group_132]
 
-#define threads for classification
-N = 8154060
-if __name__ == '__main__':
-  result = Queue()
-  processes = []
-  for i in range(49):
-    p = Process(target=classify, args=((N//50)*i, (N//50)*(i+1)))
-    processes.append(p)
-  p_50 = Process(target=classify, args=((N//50)*49, N))
-  processes.append(p_50)
+temp_1 = list(itertools.combinations(list(range(1,16)),2))
+temp_2 = list(itertools.combinations(list(range(16,31)),1))
+temp_3 = list(itertools.combinations(list(range(31,46)),3))
+group_213 = list(itertools.product(temp_1, temp_2, temp_3))
+group_213 = [x[0]+x[1]+x[2] for x in group_213]
 
+temp_1 = list(itertools.combinations(list(range(1,16)),2))
+temp_2 = list(itertools.combinations(list(range(16,31)),3))
+temp_3 = list(itertools.combinations(list(range(31,46)),1))
+group_231 = list(itertools.product(temp_1, temp_2, temp_3))
+group_231 = [x[0]+x[1]+x[2] for x in group_231]
 
-  # 모든 프로세스를 시작합니다.
-  for p in processes:
-      p.start()
+temp_1 = list(itertools.combinations(list(range(1,16)),3))
+temp_2 = list(itertools.combinations(list(range(16,31)),1))
+temp_3 = list(itertools.combinations(list(range(31,46)),2))
+group_312 = list(itertools.product(temp_1, temp_2, temp_3))
+group_312 = [x[0]+x[1]+x[2] for x in group_312]
 
-  # 모든 프로세스가 종료될 때까지 기다립니다.
-  for p in processes:
-      p.join()
+temp_1 = list(itertools.combinations(list(range(1,16)),3))
+temp_2 = list(itertools.combinations(list(range(16,31)),2))
+temp_3 = list(itertools.combinations(list(range(31,46)),1))
+group_321 = list(itertools.product(temp_1, temp_2, temp_3))
+group_321 = [x[0]+x[1]+x[2] for x in group_321]
 
-  result.put('STOP')
-  total = 0
+group2 = group_123 + group_132 + group_213 + group_231 + group_312 + group_321
+group3 = list(set(combinations) - set(group1) - set(group2))
 
-
-  while True:
-      tmp = result.get()
-      
-      
-      if tmp == 'STOP':
-          break
-      else:
-          total += tmp
-
-group_3 = list(set(combinations) - set(group_1) - set(group_2))
-
-#check classification
-print(len(group_1))
-print(len(group_2))
-print(len(group_3))
-
-
+group = [group1, group2, group3]
 
 #define sampling functions
 def rticket(batch_size):
@@ -89,15 +75,10 @@ def comb_cached(n, k):
 
 
 
-
-def nrticket1(c, w, size, N = 45, k = 6): 
-  tot = len(c[0]) + len(c[1])
-  freqprob = (len(c[0])/tot
-              )*w
-  class_prob = [a, b, 1-a-b]
+def nrticket1(c, w, size): 
   tickets = []
   for _ in range(size):
-    group = int(np.random.choice(list(range(3)), size=1, p=class_prob))
+    group = int(np.random.choice(list(range(3)), size=1, p=w))
     ticket = sorted(random.sample(c[group], 1))
     tickets.append(ticket)
   return np.array(tickets)
@@ -106,24 +87,23 @@ def nrticket1(c, w, size, N = 45, k = 6):
 
 # work
 
-B = 100000000
+B = 1000
 
-batch_size = 1000000
+batch_size = 10
 R = batch_size // 3
 NR = batch_size - R
 iter = B//batch_size
 
-F = list(range(1, 11))
-
 results = []
 
-w_grid = [200, 400, 600, 800, 1000]
+w_grid = [[0.25, 0.7, 0.05], [0.25, 0.6, 0.15],[0.25,0.5,0.25],[0.2,0.7,0.1],[0.2,0.6,0.2],
+          [0.2,0.5,0.3],[0.15,0.55,0.3]]
 
 results_data = []
 
 def work(start, end):
   for d in range(start, end):
-    draw = np.sort(random.sample(freqgroup, 1))
+    draw = np.sort(random.sample(list(range(1,46)), 1))
     for weight in w_grid:
       results = []
       for _ in tqdm(range(iter)):
@@ -132,7 +112,7 @@ def work(start, end):
         result = np.sum(np.all(draw == auto, axis=1)) + np.sum(np.all(draw == manual, axis=1))
         results.append(result)
       
-      print("d : %d, weight = %f, result = %d"%(d, weight, sum(results)))
+      print("d : %d, weight_a = %f, weight_b = %f, weight_c = %f, result = %d"%(d, weight[0], weight[1], weight[2], sum(results)))
   return 
 
 
