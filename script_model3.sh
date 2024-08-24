@@ -5,7 +5,7 @@
 #SBATCH --nodelist=n06
 #SBATCH --ntasks=1 
 #SBATCH --cpus-per-task=50
-#SBATCH --job-name="lottery_simulation3_test"
+#SBATCH --job-name="lottery_simulation3"
 #SBATCH --mail-user=cowzin@snu.ac.kr
 #SBATCH --mail-type=ALL
 #SBATCH --output=out/py-%x.%j.out

@@ -9,16 +9,15 @@ def rticket(batch_size):
     return np.array([sorted(random.sample(range(1, 46), 6)) for _ in range(batch_size)])
 
 B = 100000000
-
 batch_size = 1000000
+iter = B//batch_size
+
 
 results = []
 
-results_data = []
-
 def work(start, end):
   for d in range(start, end):
-    draw = np.sort(random.sample(list(range(1,46)), 1))
+    draw = np.sort(random.sample(list(range(1,46)), 6))
     results = []
     for _ in tqdm(range(iter)):
       auto = rticket(batch_size)

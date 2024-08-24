@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 import random
 import itertools
@@ -87,9 +86,9 @@ def nrticket1(c, w, size):
 
 # work
 
-B = 1000
+B = 100000000
 
-batch_size = 10
+batch_size = 1000000
 R = batch_size // 3
 NR = batch_size - R
 iter = B//batch_size
@@ -99,11 +98,9 @@ results = []
 w_grid = [[0.25, 0.7, 0.05], [0.25, 0.6, 0.15],[0.25,0.5,0.25],[0.2,0.7,0.1],[0.2,0.6,0.2],
           [0.2,0.5,0.3],[0.15,0.55,0.3]]
 
-results_data = []
-
 def work(start, end):
   for d in range(start, end):
-    draw = np.sort(random.sample(list(range(1,46)), 1))
+    draw = np.sort(random.sample(list(range(1,46)), 6))
     for weight in w_grid:
       results = []
       for _ in tqdm(range(iter)):
