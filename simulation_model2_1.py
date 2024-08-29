@@ -6,8 +6,6 @@ from math import factorial
 from functools import lru_cache
 from multiprocessing import Process, Queue
 from tqdm import tqdm
-from numba import njit, prange
-
 
 #Define Classes
 numbers = list(range(1,46))
@@ -26,13 +24,11 @@ group35 = [freqgroup35, othersgroup35]
 
 
 #define sampling functions
-@njit(parallel=True)
+
+
 def rticket(batch_size):
-    tickets = np.empty((batch_size, 6), dtype=np.int32)
-    for i in prange(batch_size):
-        ticket = np.random.choice(np.arange(1, 46), 6, replace=False)
-        tickets[i] = np.sort(ticket)
-    return tickets
+    return np.array([sorted(random.sample(range(1, 46), 6)) for _ in range(batch_size)])
+
 
 
 def comb(n, k):
@@ -46,7 +42,7 @@ def comb_cached(n, k):
 def nrticket1(c, w, size, N = 45, k = 6): 
   class_prob = [w, 1-w]
   tickets = []
-  for _ in prange(size):
+  for _ in range(size):
     group = int(np.random.choice(list(range(2)), size=1, p=class_prob))
     ticket = sorted(random.sample(c[group], 1))
     tickets.append(ticket)
@@ -56,9 +52,9 @@ def nrticket1(c, w, size, N = 45, k = 6):
 
 # work
 
-B = 1000
+B = 100000000
 
-batch_size = 10
+batch_size = 1000000
 R = batch_size // 3
 NR = batch_size - R
 iter = B//batch_size
