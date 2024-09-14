@@ -45,9 +45,11 @@ R = batch_size // 3
 NR = batch_size - R
 iterations = B // batch_size
 
+
 w_grid_25 = [1/30, 1/20, 1/10]
 w_grid_30 = [1/10, 1/5, 1/2]
 w_grid_35 = [1/3, 1/2, 2/3]
+
 
 def work25(start, end, gpu_id):
     cp.cuda.Device(gpu_id).use()
