@@ -52,6 +52,7 @@ iter = B//batch_size
 groups = [group1, group2, group3]
 
 def work25(start, end):
+  data = []
   for d in range(start, end):
     draw = np.sort(random.sample(list(range(1,46)), 6))
     for i, g in enumerate(groups):
@@ -62,7 +63,7 @@ def work25(start, end):
             result = np.sum(np.all(draw == auto, axis=1)) + np.sum(np.all(draw == manual, axis=1))
             results.append(result)
         print("group : %d, d : %d, weight = %f, result = %d"%(i+1, d, 0.1, sum(results)))
-  return 
+  return
 
 
 if __name__ == '__main__':
