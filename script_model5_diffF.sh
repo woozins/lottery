@@ -2,7 +2,7 @@
 #
 #SBATCH --time=4-00:00:00 
 #SBATCH --nodes=1 
-#SBATCH --nodelist=n01
+#SBATCH --nodelist=n06
 #SBATCH --ntasks=1 
 #SBATCH --cpus-per-task=50
 #SBATCH --job-name="lottery_simulation_5_diffF"
