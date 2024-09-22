@@ -45,7 +45,7 @@ w_grid_30 = [0.1, 0.2, 0.5]
 
 def work30(start, end):
   for d in range(start, end):
-    draw =  nrticket1(c = group, w = 0.1, size = 1)
+    draw =  nrticket1(c = group, w = 0.1, size = 1).ravel()
     for weight in w_grid_30:
         results = []
         for _ in tqdm(range(iter)): #배치 반복 횟수.
