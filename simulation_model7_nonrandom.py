@@ -9,11 +9,11 @@ from tqdm import tqdm
 
 #Define Classes
 numbers = list(range(1,46))
-
 combinations = list(itertools.combinations(numbers, 6))
+
 freqgroup = list(itertools.combinations(list(range(1,31)), 6))
 othersgroup = list(set(combinations) - set(freqgroup))
-groups = [freqgroup, othersgroup]
+group = [freqgroup, othersgroup]
 
 
 #define sampling functions
@@ -43,14 +43,14 @@ iter = B//batch_size
 
 w_grid_30 = [0.1, 0.2, 0.5]
 
-def work25(start, end):
+def work30(start, end):
   for d in range(start, end):
-    draw =  nrticket1(c = groups, w = 0.1, size = 1)
+    draw =  nrticket1(c = group, w = 0.1, size = 1)
     for weight in w_grid_30:
         results = []
         for _ in tqdm(range(iter)): #배치 반복 횟수.
             auto = rticket(R)
-            manual = nrticket1(groups, w = weight, size=NR).ravel().reshape(NR, -1)
+            manual = nrticket1(group, w = weight, size=NR).ravel().reshape(NR, -1)
             result = np.sum(np.all(draw == auto, axis=1)) + np.sum(np.all(draw == manual, axis=1))
             results.append(result)
         print("d : %d, weight = %f, result = %d"%(d, weight, sum(results)))
@@ -61,7 +61,7 @@ if __name__ == '__main__':
   result = Queue()
   processes = []
   for i in range(75):
-    p = Process(target=work25, args=(10*i, 10*(i+1)))
+    p = Process(target=work30, args=(10*i, 10*(i+1)))
     processes.append(p)
 
   # 모든 프로세스를 시작합니다.

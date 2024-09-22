@@ -5,11 +5,11 @@
 #SBATCH --nodelist=n05
 #SBATCH --ntasks=1 
 #SBATCH --cpus-per-task=75
-#SBATCH --job-name="lottery_simulation_6_nonrandom"
+#SBATCH --job-name="lottery_simulation_7_nonrandom"
 #SBATCH --mail-user=cowzin@snu.ac.kr
 #SBATCH --mail-type=ALL
 #SBATCH --output=out/py-%x.%j.out
 #SBATCH --error=out/py-%x.%j.err
 
 module python3
-srun python3 /home/cowzin/code/simulation_model6_nonrandom.py
+srun python3 /home/cowzin/code/simulation_model7_nonrandom.py
