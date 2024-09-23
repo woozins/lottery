@@ -10,11 +10,10 @@ from tqdm import tqdm
 #Define Classes
 numbers = list(range(1,46))
 combinations = list(itertools.combinations(numbers, 6))
-
 freqgroup = list(itertools.combinations(list(range(1,31)), 6))
 othersgroup = list(set(combinations) - set(freqgroup))
-group = [freqgroup, othersgroup]
 
+group_for_analysis = [freqgroup, othersgroup]
 
 #define sampling functions
 def rticket(batch_size):
@@ -29,7 +28,7 @@ def nrticket1(c, w, size):
   class_prob = [w, 1-w]
   tickets = []
   for _ in range(size):
-    group = int(np.random.choice(list(range(2)), size=1, p=class_prob))
+    group = int(np.random.choice(list(range(2)), size = 1, p=class_prob))
     ticket = sorted(random.sample(c[group], 1))
     tickets.append(ticket)
   return np.array(tickets)
@@ -45,12 +44,12 @@ w_grid_30 = [0.1, 0.2, 0.5]
 
 def work30(start, end):
   for d in range(start, end):
-    draw =  nrticket1(c = group, w = 0.1, size = 1).ravel()
+    draw =  nrticket1(c = group_for_analysis, w = 0.3, size = 1).ravel()
     for weight in w_grid_30:
         results = []
         for _ in tqdm(range(iter)): #배치 반복 횟수.
             auto = rticket(R)
-            manual = nrticket1(group, w = weight, size=NR).ravel().reshape(NR, -1)
+            manual = nrticket1(c = group_for_analysis, w = weight, size=NR).ravel().reshape(NR, -1)
             result = np.sum(np.all(draw == auto, axis=1)) + np.sum(np.all(draw == manual, axis=1))
             results.append(result)
         print("d : %d, weight = %f, result = %d"%(d, weight, sum(results)))

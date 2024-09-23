@@ -52,7 +52,6 @@ iter = B//batch_size
 groups = [group1, group2, group3]
 
 def work25(start, end):
-  data = []
   for d in range(start, end):
     draw = np.sort(random.sample(list(range(1,46)), 6))
     for i, g in enumerate(groups):
